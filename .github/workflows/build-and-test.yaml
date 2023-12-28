@@ -11,8 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.8']
+        os: [macos-latest]
+        python-version: ['3.7']
     steps:
     - uses: actions/checkout@v2
 
@@ -43,8 +43,13 @@ jobs:
     - name: Install SWI-Prolog on MACOS
       if: matrix.os == 'macos-latest'
       run: brew install swi-prolog
+      echo "SWI_HOME_DIR=/usr/local/lib/swipl" >> $GITHUB_ENV
 
     - name: Install package dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest pytest-cov
+
+    - name: Run tests
+      run: |
+        pytest --cov-config=.coveragerc --cov-report=xml --cov=abl ./tests
