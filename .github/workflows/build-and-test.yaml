@@ -54,4 +54,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest --cov-config=.coveragerc --cov-report=xml --cov=abl ./tests
+        pytest ./tests
